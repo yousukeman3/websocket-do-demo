@@ -22,8 +22,9 @@
 	"durable_objects": {
 		"bindings": [
 			{
-				"class_name": "MyDurableObject",
-				"name": "MY_DURABLE_OBJECT"
+				"class_name": "Room",
+				"name": "ROOM",
+				"script_name": "websocket-do-demo"
 			}
 		]
 	},

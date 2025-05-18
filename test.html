@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <button id="send">Send</button>
+  <script>
+    const ws = new WebSocket("ws://localhost:8787/room/test");
+    ws.onopen = () => console.log("OPEN");
+    ws.onmessage = (msg) => console.log("RECV:", msg.data);
+    document.getElementById('send').onclick = () => ws.send("Hello!");
+  </script>
+</body>
+</html>
