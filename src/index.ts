@@ -24,12 +24,10 @@ export default {
 	 * @param ctx - The execution context of the Worker
 	 * @returns The response to be sent back to the client
 	 */
-	async fetch(request: Request, env: any): Promise<Response> {
+	async fetch(request: Request, env: any, ctx: ExecutionContext): Promise<Response> {
 		const url = new URL(request.url);
-		const roomId = url.pathname.split("/")[2] || "default";
-		const id = env.ROOM.idFromName(roomId);
-		const stub = env.ROOM.get(id);
-		return stub.fetch(request);
+		const id = env.ROOM.idFromName(url.pathname.split("/")[2] || "default");
+		return env.ROOM.get(id).fetch(request);
 
 	},
 };
