@@ -23,8 +23,7 @@
 		"bindings": [
 			{
 				"class_name": "Room",
-				"name": "ROOM",
-				"script_name": "websocket-do-demo"
+				"name": "ROOM"
 			}
 		]
 	},
