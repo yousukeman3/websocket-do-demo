@@ -13,6 +13,14 @@
 		"wrangler": "^4.15.2"
 	},
 	"dependencies": {
+		"y-durableobjects": "^1.0.4",
 		"yjs": "^13.6.27"
+	},
+	"pnpm": {
+		"onlyBuiltDependencies": [
+			"esbuild",
+			"sharp",
+			"workerd"
+		]
 	}
 }
