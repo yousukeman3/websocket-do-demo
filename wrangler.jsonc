@@ -9,10 +9,13 @@
 	"compatibility_date": "2025-05-17",
 	"migrations": [
 		{
-			"new_sqlite_classes": [
-				"MyDurableObject"
+			"renamed_classes": [
+				{
+					"from": "MyDurableObject",
+					"to": "Room"
+				}
 			],
-			"tag": "v1"
+			"tag": "v2"
 		}
 	],
 	"assets": {
