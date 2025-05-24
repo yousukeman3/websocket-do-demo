@@ -16,20 +16,25 @@ import { Room } from "./room";
 
 
 export default {
-	/**
-	 * This is the standard fetch handler for a Cloudflare Worker
-	 *
-	 * @param request - The request submitted to the Worker from the client
-	 * @param env - The interface to reference bindings declared in wrangler.jsonc
-	 * @param ctx - The execution context of the Worker
-	 * @returns The response to be sent back to the client
-	 */
-	async fetch(request: Request, env: any, ctx: ExecutionContext): Promise<Response> {
-		const url = new URL(request.url);
-		const id = env.ROOM.idFromName(url.pathname.split("/")[2] || "default");
-		return env.ROOM.get(id).fetch(request);
+  async fetch(req: Request, env: any): Promise<Response> {
+    const url = new URL(req.url)
 
-	},
-};
+    // 1) Upgrade ヘッダーで WebSocket か判定
+    if (req.headers.get('upgrade')?.toLowerCase() === 'websocket') {
+      // 2) 自分で WebSocketPair を作成
+      const { 0: client, 1: server } = new WebSocketPair()
+
+      // 3) 片方(server) を Durable Object に渡す
+      const id = env.ROOM.idFromName(url.pathname.split('/')[2] || 'default')
+      env.ROOM.get(id).fetch(req, { ws: server } as any)   // ← 2nd param が DO への WebSocket
+
+      // 4) もう片方(client) をブラウザに返す
+      return new Response(null, { status: 101, webSocket: client })
+    }
+
+    // HTTP リクエストとして扱う場合（health-check など）
+    return new Response('Need WebSocket upgrade', { status: 426 })
+  },
+}
 
 export { Room };
